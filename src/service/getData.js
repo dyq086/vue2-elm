@@ -224,7 +224,7 @@ if (process.env.NODE_ENV == 'development') {
 
 
 	/**
-	 * 账号密码登陆
+	 * 账号密码登录
 	 */
 
 	var accountLogin = (username, password, captcha_code) => fetch('POST', '/v2/login', {username, password, captcha_code});
@@ -433,7 +433,7 @@ if (process.env.NODE_ENV == 'development') {
 
 
 	// /**
-	//  * 手机号登陆
+	//  * 手机号登录
 	//  */
 
 	// var sendLogin = (code, mobile, validate_token) => fetch('POST', '/v1/login/app_mobile', {
@@ -479,7 +479,7 @@ if (process.env.NODE_ENV == 'development') {
 	* 删除地址
 	*/
 
-	var deleteAddress=(userid, addressid) => fetch('DELETE','/v1/users/' + userid + '/addresses/' + addressid,{})
+	var deleteAddress=(userid, addressid) => fetch('OPTIONS','/v1/users/' + userid + '/addresses/' + addressid,{})
 
 }else{
 	var cityGuess = () => setpromise(home.guesscity);

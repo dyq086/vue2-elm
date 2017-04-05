@@ -37,6 +37,7 @@
 	            'question', 
 	        ]),
 	        markdownText: function (){
+                //转换markDown格式
 	        	let converter = new showdown.Converter();  
 	            return converter.makeHtml(this.question.detail);  
 	        }
@@ -76,6 +77,7 @@
     	font-size: .65rem;
     	padding: 0 .7rem;
         color: #666;
+        padding-bottom: 2rem;
     }
 
 </style>

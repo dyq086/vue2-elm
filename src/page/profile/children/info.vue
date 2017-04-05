@@ -6,7 +6,7 @@
                 <input type="file" class="profileinfopanel-upload" @change="uploadAvatar">
                 <h2>头像</h2>
                 <div class="headportrait-div">
-                    <img :src="imgPath" class="headportrait-div-top" v-if="this.avatar">
+                    <img :src="imgPath" class="headportrait-div-top" v-if="avatar">
                     <span class="headportrait-div-top" v-else>
                         <svg>
                             <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#avatar-default"></use>
@@ -104,7 +104,7 @@
 
 <script>
     import {mapMutations, mapState} from 'vuex'
-    import headTop from '../../../components/header/head'
+    import headTop from 'src/components/header/head'
     import alertTip from 'src/components/common/alertTip'
     import {getImgPath} from 'src/components/common/mixin'
 
@@ -112,13 +112,12 @@
         data(){
             return{
                 username:'',    //用户名
-                resetname:'',
+                resetname:'', //重置用户名
                 infotel:'',     //用户手机
-                getUsermes:{},  //用户信息
                 avatar:'',      //用户头像
-                show:false,
-                isEnter:true,
-                isLeave:false,
+                show:false,     //显示提示框
+                isEnter:true,  //是否登录
+                isLeave:false, //是否退出
                 showAlert: false,
                 alertText: null,
             }
@@ -127,7 +126,7 @@
             clearTimeout(this.timer)
         },
         components: {
-            headTop, 
+            headTop,
             alertTip,
         },
         mixins: [getImgPath],
@@ -140,12 +139,14 @@
             ...mapMutations([
                 'OUT_LOGIN', 'SAVE_AVANDER'
             ]),
+
             exitlogin(){
                 this.show=true;
                 this.isEnter=true;
                 this.isLeave=false;
             },
             waitingThing(){
+                //取消推出
                 clearTimeout(this.timer)
                 this.isEnter=false;
                 this.isLeave=true;
@@ -154,6 +155,7 @@
                     this.show=false;
                 },200)
             },
+            //退出登录
             outLogin(){
                 this.OUT_LOGIN();
                 this.waitingThing();
@@ -164,6 +166,7 @@
                 this.alertText = '请在手机APP中设置';
             },
             async uploadAvatar(){
+                //上传头像
                 if (this.userInfo) {
                     let input = document.querySelector('.profileinfopanel-upload')
                     let data = new FormData();
@@ -187,18 +190,18 @@
         watch: {
             userInfo: function (value) {
                 if (value && value.user_id) {
-                    this.username=this.getUsermes.username;
-                    this.infotel=this.getUsermes.mobile;
-                    this.avatar=this.getUsermes.avatar;
+                    this.username = value.username;
+                    this.infotel = value.mobile;
+                    this.avatar = value.avatar;
                 }
             }
         }
     }
 </script>
-  
+
 <style lang="scss" scoped>
-    @import '../../../style/mixin.scss';
-  
+    @import 'src/style/mixin.scss';
+
     .rating_page{
         position: absolute;
         top: 0;
@@ -239,7 +242,7 @@
             .headportrait-div{
                 span{
                     display:inline-block;
-                    
+
                     svg{
                         @include wh(100%,100%);
                     }
@@ -260,7 +263,7 @@
             margin-top:0;
             padding:.3rem .4rem;
             .headportrait-div{
-                @include fj(left) 
+                @include fj(left)
                 p{
                     text-align:left;
                     line-height:1.39rem;

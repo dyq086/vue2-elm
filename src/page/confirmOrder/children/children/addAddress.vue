@@ -19,7 +19,7 @@
                             </svg>
                             <span>女士</span>
                         </span>
-                    </div>    
+                    </div>
                 </section>
             </section>
             <section class="section_list">
@@ -35,7 +35,7 @@
             <section class="section_list">
                 <span class="section_left">送餐地址</span>
                 <section class="section_right">
-                    <router-link to="/confirmOrder/chooseAddress/addAddress/searchAddress" tag="div" class="choose_address">{{searchAddress? searchAddress.name : '小区/写字楼/学校等'}}</router-link> 
+                    <router-link to="/confirmOrder/chooseAddress/addAddress/searchAddress" tag="div" class="choose_address">{{searchAddress? searchAddress.name : '小区/写字楼/学校等'}}</router-link>
                     <input type="text" name="address_detail" placeholder="详细地址（如门牌号等）" v-model="address_detail" class="input_style">
 
                 </section>
@@ -51,7 +51,7 @@
         <alert-tip v-if="showAlert" @closeTip="showAlert = false" :alertText="alertText"></alert-tip>
         <transition name="router-slid" mode="out-in">
             <router-view></router-view>
-        </transition>  
+        </transition>
     </div>
 </template>
 
@@ -64,21 +64,21 @@
     export default {
       data(){
             return{
-                name: null,
-                sex: 1,
-                phone: null,
-                address_detail: null,
-                tag: '',
-                tag_type: 1,
-                phone_bk: false,
-                anntherPhoneNumber: '',
-                showAlert: false,
-                alertText: null,
-                poi_type: 0,
+                name: null, //姓名
+                sex: 1, //性别
+                phone: null, //电话
+                address_detail: null, //详细地址
+                tag: '', //备注
+                tag_type: 1, //备注类型
+                phone_bk: false, //是否选择备注电话
+                anntherPhoneNumber: '', //备注电话
+                showAlert: false, //弹出框
+                alertText: null, //弹出框信息
+                poi_type: 0, //地址类型
             }
         },
         created(){
-            
+
         },
         components: {
             headTop,
@@ -86,20 +86,22 @@
         },
         computed: {
             ...mapState([
-                'searchAddress', 'geohash', 'userInfo', 
+                'searchAddress', 'geohash', 'userInfo',
             ]),
         },
         methods: {
             ...mapMutations([
                 'CONFIRM_ADDRESS'
             ]),
+            //选择性别
             chooseSex(sex){
                 this.sex = sex;
             },
+            //保存地址信息
             async addAddress(){
                 if (!(this.userInfo && this.userInfo.user_id)) {
                     this.showAlert = true;
-                    this.alertText = '请登陆'
+                    this.alertText = '请登录'
                 }else if(!this.name){
                     this.showAlert = true;
                     this.alertText = '请输入姓名'
@@ -121,6 +123,7 @@
                     this.tag_type = 4;
                 }
                 let res = await postAddAddress(this.userInfo.user_id, this.searchAddress.name, this.address_detail, this.geohash, this.name, this.phone, this.anntherPhoneNumber, 0, this.sex, this.tag, this.tag_type);
+                //保存成功返沪上一页，否则弹出提示框
                 if (res.message) {
                     this.showAlert = true;
                     this.alertText = res.message;
@@ -132,10 +135,10 @@
         }
     }
 </script>
-  
+
 <style lang="scss" scoped>
     @import 'src/style/mixin';
-  
+
     .address_page{
         position: fixed;
         top: 0;
